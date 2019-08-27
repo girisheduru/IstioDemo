@@ -1,0 +1,50 @@
+
+Kiali  - http://34.68.215.60:15032/kiali/console 
+Kiali is an observability console for Istio with service mesh configuration capabilities. It helps you to understand the structure of your service mesh by inferring the topology, and also provides the health of your mesh. Kiali provides detailed metrics, and a basic Grafana integration is available for advanced queries. Distributed tracing is provided by integrating Jaeger.
+
+Graffana  - Dashboards - http://34.68.215.60:15031/ - Need to explore to create dashboards
+Grafana allows you to query, visualize, alert on and understand your metrics no matter where they are stored. Create, explore, and share dashboards with your team and foster a data driven culture.
+
+grafana                 		ClusterIP      10.47.251.1     <none>         3000/TCP     
+kiali                    		ClusterIP      10.47.248.111   <none>         20001/TCP                                                                                                                                   
+
+istio-ingressgateway     	LoadBalancer   10.47.255.57    34.68.215.60   15020:30659/TCP,80:31380/TCP,443:31390/TCP,31400:31400/TCP,15029:31075/TCP,15030:32363/TCP,15031:32541/TCP,15032:30348/TCP,15443:31233/TCP  
+An ingress Gateway describes a load balancer operating at the edge of the mesh that receives incoming HTTP/TCP connections. It configures exposed ports, protocols, etc. but, unlike Kubernetes Ingress Resources , does not include any traffic routing configuration
+
+CANARY Deployment — done
+
+prometheus               	ClusterIP      10.47.242.101   <none>         9090/TCP    
+Logs
+
+
+Blue Green Deployment 
+
+match:	
+	request:
+	headers:
+	user:
+	regex: "joatmon08"
+==================
+Roll Back 
+Helm Releases
+===================================
+
+istio-citadel            		ClusterIP      10.47.243.92    <none>         8060/TCP,15014/TCP                                                                                                                          
+                                                                                                 
+istio-policy          	   	ClusterIP      10.47.240.144   <none>         9091/TCP,15004/TCP,15014/TCP                                                                                                                
+istio-sidecar-injector   	ClusterIP      10.47.251.228   <none>         443/TCP                                                                                                                                     
+istio-telemetry          	ClusterIP      10.47.254.254   <none>         9091/TCP,15004/TCP,15014/TCP,42422/TCP                                                                                                      
+
+HTTPS - Expose
+Internal APIS - Secured
+
+istio-galley           	  	ClusterIP      10.47.250.83    <none>         443/TCP,15014/TCP,9901/TCP      
+Galley provides configuration management services for Istio.
+
+istio-pilot             	        ClusterIP      10.47.243.67    <none>         15010/TCP,15011/TCP,8080/TCP,15014/TCP                                                                                                      
+the core traffic management component.
+
+Envoy : The high-performance proxy that Istio uses to mediate inbound and outbound traffic for all services in the service mesh
+
+
+
