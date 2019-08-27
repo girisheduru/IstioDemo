@@ -1,0 +1,106 @@
+
+
+
+Istio - GCP
+
+
+//Cluster 
+gcloud components install kubectl
+gcloud config set compute/zone us-central1-b
+gcloud container clusters create istio-demo --machine-type=n1-standard-2 --num-nodes=4 --no-enable-legacy-authorization
+kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=“girishkumar.eduru@gmail.com”
+
+
+//NodeJS
+git clone https://github.com/girisheduru/IstioDemo.git istio_project
+git clone https://github.com/girisheduru/IstioDemoV2.git istio_project2
+
+export PROJECT_ID=astral-petal-248314
+docker build -t gcr.io/${PROJECT_ID}/node-service:v1 .
+docker build -t gcr.io/${PROJECT_ID}/node-service:v2 .
+docker build -t gcr.io/${PROJECT_ID}/node-service:v3 .
+
+
+docker images
+gcloud auth configure-docker
+docker push gcr.io/${PROJECT_ID}/node-service:v2
+docker push gcr.io/${PROJECT_ID}/node-service:v1
+docker push gcr.io/${PROJECT_ID}/node-service:v3
+
+
+// Istio
+helm repo add istio.io https://storage.googleapis.com/istio-release/releases/1.1.7/charts/
+helm repo list
+helm init 
+helm version 
+kubectl create serviceaccount --namespace kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'      
+helm init --service-account tiller --upgrade
+
+helm install --name istio-init --namespace istio-system istio.io/istio-init
+kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
+
+helm install --name istio --namespace istio-system --set grafana.enabled=true istio.io/istio
+kubectl get svc -n istio-system
+kubectl get pods -n istio-system
+kubectl label namespace default istio-injection=enabled
+kubectl get namespace -L istio-injection
+
+
+
+// YAML
+Girishs-MacBook-Air:istio_project SAMRAT$ nano node-app.yaml
+Girishs-MacBook-Air:istio_project SAMRAT$ nano node-istio.yaml
+Girishs-MacBook-Air:istio_project SAMRAT$ nano node-grafana.yaml
+
+
+kubectl apply -f node-grafana.yaml
+kubectl get gateway -n istio-system
+kubectl get virtualservice -n istio-system
+kubectl apply -f node-app.yaml
+kubectl get pods
+kubectl apply -f node-istio.yaml
+kubectl get gateway
+kubectl get virtualservice
+
+
+ kubectl get svc -n istio-system
+
+http://34.68.215.60/
+https://34.68.215.60/
+
+http://ingressgateway_ip
+http://ingressgateway_ip:15031
+
+kubectl get svc -n istio-system | grep grafana
+kubectl get pods  -n istio-system | grep grafana
+kubectl get gateway -n istio-system | grep grafana
+kubectl get virtualservice -n istio-system | grep grafana
+
+
+kubectl delete deployment.apps/nodejs-v1 service/nodejs
+
+
+
+helm upgrade istio --namespace istio-system --set kiali.enabled=true --set grafana.enabled=true  istio.io/istio
+kubectl -n istio-system get svc kiali
+kubectl apply -f node-kiali.yaml
+http://localhost:20001/kiali/console 
+
+kubectl apply -f node-app.yaml
+kubectl apply -f node-istio.yaml
+
+kubectl apply -f node-proms.yaml
+kubectl apply -f node-grafana.yaml
+kubectl apply -f node-kiali.yaml
+
+
+
+
+
+kubectl delete -f citadel.yaml
+kubectl delete -f node-istio.yaml
+kubectl delete -f node-app.yaml
+
+

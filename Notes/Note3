@@ -1,0 +1,16 @@
+Istio Demo :
+* Pilot, which is responsible for service discovery and for configuring the Envoy sidecar proxies in an Istio service mesh.
+    * The Istio ingress gateway, which provides an ingress point for traffic from outside the cluster.
+    * LoadBalncing 
+    * Traffic routing and control
+    * Canary Deployment 
+* The Mixer components Istio-Policy and Istio-Telemetry, which enforce usage policies and gather telemetry data across the service mesh.
+    * Graffana 
+    * Prometheus
+    * Kiali
+
+* Citadel, which automates key and certificate management for Istio. - To be Explored 
+* Galley, which provides configuration management services for Istio. - To be Explored
+
+Helm Demo:
+
