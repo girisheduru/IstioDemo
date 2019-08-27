@@ -16,7 +16,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: nodejs
+  name: nodejs-vs
 spec:
   hosts:
   - "*"
@@ -28,24 +28,24 @@ spec:
         prefix: /moreIstio
     route:
     - destination:
-        host: nodejs
+        host: nodejs-svc
         subset: v3  
   - route:
     - destination:
-        host: nodejs
+        host: nodejs-svc
         subset: v1
       weight: 50
     - destination:
-        host: nodejs
+        host: nodejs-svc
         subset: v2
       weight: 50
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: nodejs
+  name: nodejs-dr
 spec:
-  host: nodejs
+  host: nodejs-svc
   subsets:
   - name: v1
     labels:
