@@ -61,3 +61,27 @@ spec:
         image: gcr.io/astral-petal-248314/node-demo:v2
         ports:
         - containerPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-v3
+  labels:
+    version: v3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nodejs
+  template:
+    metadata:
+      labels:
+        app: nodejs
+        version: v3
+    spec:
+      containers:
+      - name: nodejs
+        image: gcr.io/astral-petal-248314/node-demo:v3
+        ports:
+        - containerPort: 8080
