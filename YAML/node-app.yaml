@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
       - name: nodejs
-        image: gcr.io/astral-petal-248314/node-demo:v1
+        image: gcr.io/astral-petal-248314/node-service:v1
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -59,7 +59,7 @@ spec:
     spec:
       containers:
       - name: nodejs
-        image: gcr.io/astral-petal-248314/node-demo:v2
+        image: gcr.io/astral-petal-248314/node-service:v2
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -84,7 +84,7 @@ spec:
     spec:
       containers:
       - name: nodejs
-        image: gcr.io/astral-petal-248314/node-demo:v3
+        image: gcr.io/astral-petal-248314/node-service:v3
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
